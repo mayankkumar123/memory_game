@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.button {
+
+    float:left;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.button1 {
+position:absolute;
+top:20%;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+	border-radius:15px;
+}
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+.button2 {
+position:absolute;
+top:40%;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+	border-radius:15px;
+}
+.button2:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+div#memory_board{
+	background-color:black;
+	border:#999 1px solid;
+	width:800px;
+	height:540px;
+	padding:24px;
+	margin:50px auto;
+}
+div#memory_board > div{
+	background: url(tile_bg.jpg) no-repeat;
+	border:red 1px solid;
+	width:71px;
+	height:71px;
+	float:left;
+	margin:10px;
+	padding:20px;
+	font-size:64px;
+	cursor:pointer;
+	text-align:center;
+}
+
+
+</style>
+
+<script>
+
+var memory_array = ['A','A','B','B','C','C','D','D','E','E','F','F','G','G','H','H','I','I','J','J','K','K','L','L'];
+var memory_values = [];
+var memory_tile_ids = [];
+var tiles_flipped = 0;
+Array.prototype.memory_tile_shuffle = function(){
+    var i = this.length, j, temp;
+    while(--i > 0){
+        j = Math.floor(Math.random() * (i+1));
+        temp = this[j];
+        this[j] = this[i];
+        this[i] = temp;
+    }
+}
+function newBoard(){
+    quizCount();
+	tiles_flipped = 0;
+	var output = '';
+    memory_array.memory_tile_shuffle();
+	for(var i = 0; i < memory_array.length; i++){
+		output += '<div id="tile_'+i+'" onclick="memoryFlipTile(this,\''+memory_array[i]+'\')"></div>';
+	}
+	document.getElementById('memory_board').innerHTML = output;
+}
+
+function memoryFlipTile(tile,val){
+	if(tile.innerHTML == "" && memory_values.length < 2){
+		tile.style.background = '#FFF';
+		tile.innerHTML = val;
+		
+		if(memory_values.length == 0){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+		} else if(memory_values.length == 1){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+			if(memory_values[0] == memory_values[1]){
+				tiles_flipped += 2;
+				
+				memory_values = [];
+            	memory_tile_ids = [];
+				
+				if(tiles_flipped == memory_array.length){
+					alert("Board cleared...");
+					document.getElementById('memory_board').innerHTML = "";
+					newBoard();
+				}
+			} else {
+				function flip2Back(){
+				    
+				    var tile_1 = document.getElementById(memory_tile_ids[0]);
+				    var tile_2 = document.getElementById(memory_tile_ids[1]);
+				    tile_1.style.background = 'url(tile_bg.jpg) no-repeat';
+            	    tile_1.innerHTML = "";
+				    tile_2.style.background = 'url(tile_bg.jpg) no-repeat';
+            	    tile_2.innerHTML = "";
+				    // Clear both arrays
+				    memory_values = [];
+            	    memory_tile_ids = [];
+				}
+				setTimeout(flip2Back, 700);
+			}
+		}
+	}
+}
+var s=59
+var m=5
+var q
+function quizCount()
+{
+document.getElementById('timer').value=m+":"+s+" remaining"
+s=s-1
+q=setTimeout("quizCount()", 1000)
+if (s<1)
+{ m=m-1; s=59;}
+
+if (m<0)
+{
+quizStop();
+}
+}
+function quizStop()
+{
+clearTimeout(q)
+document.getElementById('timer').value="Your Time Was Finished"
+window.location.href = 'index.html';
+}
+
+</script>
+<form>
+
+<input type="button" value="Quiz Timer" id="timer">
+
+</form>
+</head>
+<body style="background-image:url(a.jpg);no-repeat;">
+
+<div id="memory_board"></div>
+<script>newBoard();
+</script>
+<button class="button button1" onClick="alert('Match same alphabets in min. time');">Instruction</button>
+<button class="button button2" onClick="newBoard();">New Game</button>
+</body>
+</html>

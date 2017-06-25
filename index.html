@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Memory_Game</title>
+<style>
+body{
+    background-image:url(download.jpg);
+	background-repeat: no-repeat;
+	background-size:cover;
+	margin: 0;
+	padding: 0;
+	width:50%;
+
+	}
+.button{
+position:absolute;
+top:70%;
+left:35%;
+display:inline-block;
+ background-color: red; 
+    color: black; 
+    border: 2px solid #4CAF50;
+	border-radius:15px;
+ padding: 25px 50px;
+     font-size: 70px;
+}
+.button1:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 70px 0 rgba(0,0,0,0.19);
+	  cursor: pointer;
+}
+#para{
+     position:absolute;
+	 top:25%;
+	 float:left;
+	 left:34%;
+	 font-size:50px;
+    }
+	
+</style>
+</head>
+<body onLoad="Function();">
+<script>
+function Function(){
+var p=prompt("Please Enter your name","");
+if(p!=null){
+document.getElementById("para").innerHTML="Hello!!  "+ p + "</br>Are you ready to play this</br> awesome memory game.";
+}
+
+
+}
+</script>
+<a href="memory_game.html"><button class="button button1">Play Game</button></a>
+<p id="para"></p>
+</body>
+</html>
